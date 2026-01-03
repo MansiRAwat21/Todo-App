@@ -40,7 +40,6 @@ export const useUpdatesTodos = () => {
       queryClient.invalidateQueries({
         queryKey: ["todosSummery", variables?.payload?.owner_id],
       });
-      console.log()
       if (variables?.action === "status") {
         toast.success(
           variables.payload.status === "completed"

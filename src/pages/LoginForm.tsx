@@ -7,6 +7,7 @@ import { useAuth } from "../context/AuthContext";
 import { useMutation } from "@tanstack/react-query";
 import { loginApi } from "../services/auth.api";
 import { HiEye, HiEyeOff } from "react-icons/hi";
+import { toast } from "react-toastify";
 
 export default function Login() {
   const {
@@ -41,7 +42,7 @@ export default function Login() {
           message: "User not found",
         });
       } else {
-        alert(error?.response?.data?.message || "Login failed");
+        toast.error(error?.response?.data?.message || "Login failed");
       }
     },
   });
