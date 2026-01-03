@@ -60,6 +60,7 @@ const Header = () => {
         )}
         <Tooltip content="Theme">
           <button
+            aria-label="Theme"
             onClick={toggleTheme}
           >
             {theme === "light" ? <FiMoon /> : <FiSun />}
@@ -67,7 +68,7 @@ const Header = () => {
         </Tooltip>
 
         <Tooltip content="Logout">
-          <button onClick={logout} className="text-xl text-gray-500 hover:text-red-500">
+          <button aria-label="Logout" onClick={logout} className="text-xl text-gray-500 hover:text-red-500">
             <IoLogOutOutline />
           </button>
         </Tooltip>

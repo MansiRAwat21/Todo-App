@@ -1,10 +1,11 @@
 import Header from '../components/todo/Header';
-import StatsCards from "../components/todo/StatsCards";
 import { useAuth } from '../context/AuthContext';
-import ListContainer from '../components/todo/ListContainer';
 import { useQuery } from '@tanstack/react-query';
 import { getTodos } from '../services/auth.api';
+import React from 'react';
 
+const StatsCards = React.lazy(()=> import("../components/todo/StatsCards")) 
+const ListContainer = React.lazy(()=> import("../components/todo/ListContainer")) 
 
 export const useGetTodos = (owner_id: string) => {
   return useQuery({

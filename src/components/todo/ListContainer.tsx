@@ -1,15 +1,16 @@
-import { useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { FaRegTrashAlt, FaRegEdit, FaRegCalendarAlt } from "react-icons/fa";
 import { category, priorities } from "../../utils/type";
 import { formatDateTime, getDueBadge } from "../../utils/date";
 import { useDeleteTodos, useUpdatesTodos } from "../../hooks/Apis";
 import { useAuth } from "../../context/AuthContext";
 import DeleteModal from "../../ui/DeleteModal";
-import FormTodo from "./FormTodo";
 import Modal from "../../ui/Modal";
-import EditTodo from "./EditTodo";
 import { getPriorityClasses } from "../../utils/NewData";
 import Tooltip from "../../ui/Tooltip";
+
+const FormTodo = React.lazy(() => import('./FormTodo'))
+const EditTodo = React.lazy(() => import('./EditTodo'))
 
 const ListContainer = ({ data, isLoading }: any) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -90,13 +91,17 @@ const ListContainer = ({ data, isLoading }: any) => {
         onClose={() => setShowTodoModal(false)}
         title="Add New Todo"
       >
-        <FormTodo onClose={() => setShowTodoModal(false)} />
+        <React.Suspense fallback={<div>Loading...</div>}>
+          <FormTodo onClose={() => setShowTodoModal(false)} />
+        </React.Suspense>
       </Modal>
 
       <Modal isOpen={showEditModal} onClose={handleEditClose} title="Edit Todo">
-        {todoToEdit && (
-          <EditTodo todo={todoToEdit} onClose={handleEditClose} isEdit />
-        )}
+        <React.Suspense fallback={<div>Loading...</div>}>
+          {todoToEdit && (
+            <EditTodo todo={todoToEdit} onClose={handleEditClose} isEdit />
+          )}
+        </React.Suspense>
       </Modal>
 
       {/* Tabs + Create Button */}
@@ -106,11 +111,10 @@ const ListContainer = ({ data, isLoading }: any) => {
             <button
               key={tab.label}
               onClick={() => setActiveTab(tab.label)}
-              className={`px-4 py-2 rounded-t text-sm font-medium ${
-                activeTab === tab.label
-                  ? "bg-primary text-white"
-                  : "bg-gray-200 text-gray-800 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600"
-              }`}
+              className={`px-4 py-2 rounded-t text-sm font-medium ${activeTab === tab.label
+                ? "bg-primary text-white"
+                : "bg-gray-200 text-gray-800 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600"
+                }`}
             >
               {tab.label}
             </button>
@@ -180,12 +184,13 @@ const ListContainer = ({ data, isLoading }: any) => {
               <div className="flex gap-3 flex-1">
                 <input
                   type="checkbox"
+                  aria-label={`Mark task "${task.title}" as completed`}
                   checked={task.status === "completed"}
                   onChange={() => handleToggleStatus(task)}
                   className="w-5 h-5 rounded-full border-gray-300 dark:border-gray-600 mt-1"
                 />
                 <div className="flex-1">
-                  <div className="flex flex-wrap items-center gap-2 mb-1">
+                  <div className="flex flex-wrap items-center gap-2 mb-1 min-h-6">
                     <span
                       className={`px-2 py-1 rounded text-xs font-semibold ${getPriorityClasses(
                         task.priority
@@ -209,15 +214,14 @@ const ListContainer = ({ data, isLoading }: any) => {
                         );
                       })()}
                   </div>
-                  <h3
-                    className={`font-semibold ${
-                      task.status === "completed"
-                        ? "line-through text-gray-400"
-                        : "text-gray-900 dark:text-gray-100"
-                    }`}
+                  <p
+                    className={`font-semibold text-lg ${task.status === "completed"
+                      ? "line-through text-gray-400"
+                      : "text-gray-900 dark:text-gray-100"
+                      }`}
                   >
                     {task.title}
-                  </h3>
+                  </p>
                   <p className="text-xs text-gray-600 dark:text-gray-300">
                     {task.description}
                   </p>
