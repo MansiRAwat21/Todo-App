@@ -24,12 +24,12 @@ function App() {
             </AuthRoute></Suspense>} />
 
 
-          <Route path="/" element={<Suspense fallback={<div>Loading...</div>}>
+          <Route path="/signup" element={<Suspense fallback={<div>Loading...</div>}>
             <AuthRoute>
               <Signup />
             </AuthRoute></Suspense>} />
 
-          <Route path="/" element={<Suspense fallback={<div>Loading...</div>}>
+          <Route path="/home" element={<Suspense fallback={<div>Loading...</div>}>
             <ProtectedRoute>
               <Home />
             </ProtectedRoute></Suspense>} />
