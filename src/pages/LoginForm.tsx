@@ -26,6 +26,7 @@ export default function Login() {
     mutationFn: loginApi,
     onSuccess: (res: any) => {
       loginToken(res.data);
+      toast.success("Logged in successfully")
       navigate("/home");
     },
     onError: (error: any) => {

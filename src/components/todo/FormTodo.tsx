@@ -104,6 +104,7 @@ const FormTodo = ({onClose}:any) => {
                     <div>
                         <input
                             type="date"
+                            min={new Date().toISOString().split("T")[0]}
                             className="pr-2 py-1 w-full outline-none border border-gray-300 rounded-lg px-4 mt-4"
                             {...register("dueDate", {
                                 required: "Date is required",

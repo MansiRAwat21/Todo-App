@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { InputField } from "../ui/InputField";
 import { Link, useNavigate } from "react-router-dom";
 import { useSignup } from "../hooks/Apis";
+import { toast } from "react-toastify";
 
 
 
@@ -29,6 +30,7 @@ export default function Signup() {
 
     signupMutation.mutate(payload, {
       onSuccess: () => {
+        toast.success('Account created successfully 🎉')
         navigate("/login");
       },
       onError: (error: any) => {
@@ -39,7 +41,7 @@ export default function Signup() {
             message: "This email is already registered. Please login instead.",
           });
         } else {
-          alert(error?.response?.data?.message || "Signup failed");
+          toast.error(error?.response?.data?.message || "Signup failed");
         }
       }
     });

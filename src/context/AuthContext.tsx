@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import type { AuthContextType, User } from "../types/Todos";
 import api from "../services/api";
+import { toast } from "react-toastify";
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
@@ -46,6 +47,7 @@ const fetchUser = async () => {
   const logout = async () => {
   try {
     await api.post("/api/auth/logout", {}, { withCredentials: true });
+    toast.success("Logged out successfully")
   } catch (err) {
     console.error(err);
   } finally {

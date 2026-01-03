@@ -9,6 +9,11 @@
   --color-primary-hover: 67 56 202; /* indigo-700 */
 }
 
+@layer base {
+  button {
+    @apply cursor-pointer;
+  }
+}
 @layer utilities {
   /* ===== App ===== */
    .theme-transition {
@@ -84,3 +89,4 @@
     @apply rounded-xl shadow-md bg-white dark:bg-gray-800;
   }
 }
+
